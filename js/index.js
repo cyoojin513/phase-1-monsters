@@ -90,13 +90,38 @@ document.addEventListener("DOMContentLoaded", () => {
     const pageBack = document.querySelector('button#back')
 
     pageForward.addEventListener('click', e => {loadLimitedMonster(+1)})
+    pageBack.addEventListener('click', e => {loadLimitedMonster(-1)})
+
 
     function loadLimitedMonster(page){
         return fetch(`http://localhost:3000/monsters/?_limit=50&_page=1${page}`)
         .then(res => res.json())
-        .then(e => {e.forEach(creatingList)})
+        .then(e => {e.forEach(updatingList)})
     }
 
+
+    function updatingList(e) {
+        const divContainer = document.querySelector('div#monster-container')
+        const h2Name = document.createElement("h2")
+        const h4Age = document.createElement("h4")
+        const pDescription = document.createElement("p")
+
+        const h2 = document.querySelector('div#monster-container h2')
+        const h4 = document.querySelector('div#monster-container h4')
+        const p = document.querySelector('div#monster-container p')
+
+        divContainer.removeChild(h2)
+        divContainer.removeChild(h4)
+        divContainer.removeChild()
+
+        h2Name.textContent = e.name
+        h2Name.dataset.id = e.id
+        h4Age.textContent = e.age
+        pDescription.textContent = e.description
+
+        divContainer.append(h2Name, h4Age, pDescription)
+
+    }
 
 
 })
